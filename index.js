@@ -9,9 +9,10 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
 
+// Array for answers to questions
 const newStaffMemberData = [];
 
-
+// Array object questions asked in CLI to user
 const questions = [
   {
     type: "list",
@@ -45,9 +46,11 @@ const questions = [
   },
 ];
 
-// function team wraps all the employee, engineer, intern, manager function and their user inputs  pushed into an array
+// function teamData wraps all the employee, engineer, intern, manager functions
+// Take user answers pushed into newStaffMemberData array
+// fs write the generateTeam to output directory
 function teamData() {
-  // takes user inputs from questions array and with the promise method, will push into teamArr
+  // takes user inputs from questions array and with the promise method, will push into newStaffMemberData
   // HOW TO DRY it out?
   function employee() {
     inquirer.prompt(questions).then((data) => {
@@ -91,22 +94,45 @@ function teamData() {
       newStaffMemberData.push(newManager);
     });
   }
-}
+  // -------------stuck
 
-// Write the page-template file to the html file that is created in this function
-function writeToFile(fileName, data) {
-  fs.writeFile(fileName, data, (err) =>
-    err ? console.log(err) : console.log("Success!")
+  // Write the page-template file to the html file that is created in this function
+  // Create the output directory if the output path doesn't exist
+  if (!fs.existsSync("./output")) {
+    fs.mkdirSync("./output");
+  }
+  fs.writeFileSync(
+    "./output/index.html",
+    generateTeam(newStaffMemberData),
+    "utf-8"
   );
 }
+// end of teamData block
+// teamData();
 
-// Create function to intitilaize app
-// STUCK HERE---------
-function init() {
-  const res = teamData(newStaffMemberData)
-  const response = generateTeam(team);
-    writeToFile("index.html", response);
-    writeToFile('index.html',res)
+// Function to add staff members with specific Q&A from teamData
+// Dynamicaly generate the html card
+function addTeamMembers() {
+  // if manager is selected in the first question, execute manager() and generateManager()
+  if (questions.choices === "Manager") {
+    manager();
+    generateManager();
+  } else if (questions.choices === "Engineer") {
+    engineer();
+    generateEngineer();
+  } else if (questions.choices === "Intern") {
+    intern();
+    generateIntern();
+  } else if (questions.choices === "Employee") {
+    employee();
+    generateEmployee()
   }
+  return questions;
+}
 
-init()
+// Start app
+function startApp(){
+  teamData()
+  addTeamMembers()
+}
+startApp()
