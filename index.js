@@ -40,7 +40,7 @@ const questions = () => {
     ])
     .then((answers) => {
       console.log(answers);
-      // if manager selected answer this specific question
+      // if manager selected, answer these specific question
       if (answers.role === "Manager") {
         inquirer
           .prompt([
@@ -57,7 +57,7 @@ const questions = () => {
               answers.email,
               managerAns.officeNumber
             );
-            console.log(managerAns);
+            console.log('managerAns');
           });
 
         // if engineer selected answer these set of questions
@@ -98,21 +98,15 @@ const questions = () => {
             );
             console.log("intern");
           });
-          // if employee selected ask the base questions
-      } else (answers.role === "Employee")
-       questions().then((employeeAns) => {
-         const newEmployee = new Employee(
-           answers.name, 
-           answers.id, 
-           answers.email,
-            employeeAns
-            );
-        console.log("employee");
-    
+      } else {
+        // const newEmployee = new Employee();
+        // return newEmployee;
+      }
+  
     });
-});
 };
 
+questions();
 
 
 // Write the page-template file to the html file that is created in this function
