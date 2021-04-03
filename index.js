@@ -57,7 +57,7 @@ const questions = () => {
               answers.email,
               managerAns.officeNumber
             );
-            console.log('managerAns');
+            console.log("managerAns");
           });
 
         // if engineer selected answer these set of questions
@@ -79,6 +79,7 @@ const questions = () => {
             );
             console.log("engineer");
           });
+          
         // if intern selected answer these set of questions
       } else if (answers.role === "Intern") {
         inquirer
@@ -99,15 +100,13 @@ const questions = () => {
             console.log("intern");
           });
       } else {
-        // const newEmployee = new Employee();
-        // return newEmployee;
+        //  const newEmployee = new Employee();
+        //  return newEmployee;
       }
-  
     });
+    newStaffMemberData.push(questions)
 };
-
 questions();
-
 
 // Write the page-template file to the html file that is created in this function
 // Create the output directory if the output path doesn't exist
